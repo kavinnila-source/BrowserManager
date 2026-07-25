@@ -21,6 +21,8 @@ from config import (
     MIN_Y,
     MAX_Y,
     PROFILE_FOLDER,
+    MIN_ZOOM,
+    MAX_ZOOM,
 )
 
 from logger import log
@@ -106,6 +108,15 @@ def run_browser(worker_id, stop_event):
                     "return document.readyState"
                 ) == "complete"
             )
+
+            # Apply random browser zoom
+            zoom = random.randint(MIN_ZOOM, MAX_ZOOM)
+
+            driver.execute_script(
+                f"document.body.style.zoom='{zoom}%'"
+            )
+
+            log(f"Browser {worker_id} Zoom set to {zoom}%")
 
             active_minutes = random.randint(
                 MIN_ACTIVE_MINUTES,
