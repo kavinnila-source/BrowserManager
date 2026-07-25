@@ -1,0 +1,12 @@
+# Firefox Profiles
+profiles/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
