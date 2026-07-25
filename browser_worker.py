@@ -26,8 +26,7 @@ from config import (
 from logger import log
 from user_agents import get_random_user_agent
 from health_monitor import is_browser_alive
-from browser_activity import random_scroll
-from mouse_activity import random_mouse_movement
+from browser_activity import human_reading
 
 
 def run_browser(worker_id, stop_event):
@@ -37,24 +36,20 @@ def run_browser(worker_id, stop_event):
         try:
             log(f"Browser {worker_id} Starting...")
 
-            # Base directory
             base_dir = os.path.dirname(os.path.abspath(__file__))
 
-            # Geckodriver path
             gecko_path = os.path.join(
                 base_dir,
                 "drivers",
                 "geckodriver.exe"
             )
 
-            # Firefox profile path
             profile_path = os.path.join(
                 base_dir,
                 PROFILE_FOLDER,
                 f"profile_{worker_id}"
             )
 
-            # Create profile folder
             os.makedirs(profile_path, exist_ok=True)
 
             service = Service(gecko_path)
@@ -74,11 +69,9 @@ def run_browser(worker_id, stop_event):
                 False,
             )
 
-            # Profile
             options.add_argument("-profile")
             options.add_argument(profile_path)
 
-            # Random User Agent
             user_agent = get_random_user_agent()
 
             options.set_preference(
@@ -93,11 +86,9 @@ def run_browser(worker_id, stop_event):
                 options=options,
             )
 
-            # Random window size
             width = random.randint(MIN_WIDTH, MAX_WIDTH)
             height = random.randint(MIN_HEIGHT, MAX_HEIGHT)
 
-            # Random window position
             x = random.randint(MIN_X, MAX_X)
             y = random.randint(MIN_Y, MAX_Y)
 
@@ -110,7 +101,6 @@ def run_browser(worker_id, stop_event):
 
             driver.get(selected_url)
 
-            # Wait until page loads
             WebDriverWait(driver, 60).until(
                 lambda d: d.execute_script(
                     "return document.readyState"
@@ -127,16 +117,12 @@ def run_browser(worker_id, stop_event):
                 f"{active_minutes} minute(s)"
             )
 
-            # Initial human activity
-            random_scroll(driver)
-            log(f"Browser {worker_id} Initial scrolling completed.")
+            # Initial activity
+            human_reading(driver)
+            log(f"Browser {worker_id} Initial human reading completed.")
 
-            #random_mouse_movement(driver)
-            #log(f"Browser {worker_id} Initial mouse movement completed.")
+            next_activity = random.randint(15, 40)
 
-            next_scroll = random.randint(15, 40)
-
-            # Keep browser open
             for second in range(active_minutes * 60):
 
                 if stop_event.is_set():
@@ -146,15 +132,12 @@ def run_browser(worker_id, stop_event):
                     log(f"Browser {worker_id} is not responding.")
                     break
 
-                if second >= next_scroll:
+                if second >= next_activity:
 
-                    random_scroll(driver)
-                    log(f"Browser {worker_id} Random scrolling completed.")
+                    human_reading(driver)
+                    log(f"Browser {worker_id} Human reading completed.")
 
-                    #random_mouse_movement(driver)
-                    #log(f"Browser {worker_id} Random mouse movement completed.")
-
-                    next_scroll = second + random.randint(15, 40)
+                    next_activity = second + random.randint(15, 40)
 
                 time.sleep(1)
 

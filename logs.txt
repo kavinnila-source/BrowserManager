@@ -221,3 +221,142 @@ receiveMessage@chrome://remote/content/marionette/actors/MarionetteEventsParent.
 [2026-07-25 23:31:59] Browser 1 Initial scrolling completed.
 [2026-07-25 23:32:02] Browser 2 Opening https://news.ycombinator.com
 [2026-07-25 23:32:07] Browser 2 Active for 14 minute(s)
+[2026-07-26 00:23:13] Browser 1 Starting...
+[2026-07-26 00:23:13] Browser 1 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edg/138.0.0.0
+[2026-07-26 00:23:20] Browser 1 Opening https://www.wikipedia.org
+[2026-07-26 00:23:22] Browser 1 Active for 58 minute(s)
+[2026-07-26 00:23:28] Browser 2 Starting...
+[2026-07-26 00:23:28] Browser 2 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 00:23:36] Browser 2 Opening https://httpbin.org/user-agent
+[2026-07-26 00:23:38] Browser 2 Active for 43 minute(s)
+[2026-07-26 00:23:44] Browser 1 Initial scrolling completed.
+[2026-07-26 00:23:57] Browser 2 Initial scrolling completed.
+[2026-07-26 00:24:08] Browser 1 ERROR: name 'random_scroll' is not defined
+[2026-07-26 00:24:08] Browser 1 Closing...
+[2026-07-26 00:24:11] Browser 1 Closed
+[2026-07-26 00:24:11] Browser 1 Restarting in 1 minute(s)...
+[2026-07-26 00:24:17] Browser 2 ERROR: name 'random_scroll' is not defined
+[2026-07-26 00:24:17] Browser 2 Closing...
+[2026-07-26 00:24:21] Browser 2 Closed
+[2026-07-26 01:19:07] Browser 1 Starting...
+[2026-07-26 01:19:07] Browser 1 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:19:15] Browser 1 Opening https://example.com
+[2026-07-26 01:19:15] Browser 1 Active for 14 minute(s)
+[2026-07-26 01:19:22] Browser 2 Starting...
+[2026-07-26 01:19:22] Browser 2 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:19:29] Browser 2 Opening https://httpbin.org/user-agent
+[2026-07-26 01:19:31] Browser 1 Initial scrolling completed.
+[2026-07-26 01:19:32] Browser 2 Active for 27 minute(s)
+[2026-07-26 01:19:50] Browser 2 Initial scrolling completed.
+[2026-07-26 01:20:06] Browser 1 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:20:06] Browser 1 Closing...
+[2026-07-26 01:20:08] Browser 1 Closed
+[2026-07-26 01:20:08] Browser 1 Restarting in 1 minute(s)...
+[2026-07-26 01:20:26] Browser 2 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:20:26] Browser 2 Closing...
+[2026-07-26 01:20:29] Browser 2 Closed
+[2026-07-26 01:20:29] Browser 2 Restarting in 1 minute(s)...
+[2026-07-26 01:21:08] Browser 1 Starting...
+[2026-07-26 01:21:08] Browser 1 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:21:15] Browser 1 Opening https://example.com
+[2026-07-26 01:21:15] Browser 1 Active for 28 minute(s)
+[2026-07-26 01:21:29] Browser 2 Starting...
+[2026-07-26 01:21:29] Browser 2 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:21:30] Browser 1 Initial scrolling completed.
+[2026-07-26 01:21:35] Browser 2 Opening https://example.com
+[2026-07-26 01:21:38] Browser 2 Active for 22 minute(s)
+[2026-07-26 01:21:52] Browser 1 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:21:52] Browser 1 Closing...
+[2026-07-26 01:21:55] Browser 1 Closed
+[2026-07-26 01:21:55] Browser 1 Restarting in 1 minute(s)...
+[2026-07-26 01:22:03] Browser 2 Initial scrolling completed.
+[2026-07-26 01:22:24] Browser 2 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:22:24] Browser 2 Closing...
+[2026-07-26 01:22:26] Browser 2 Closed
+[2026-07-26 01:22:26] Browser 2 Restarting in 1 minute(s)...
+[2026-07-26 01:22:55] Browser 1 Starting...
+[2026-07-26 01:22:55] Browser 1 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edg/138.0.0.0
+[2026-07-26 01:23:01] Browser 1 Opening https://www.wikipedia.org
+[2026-07-26 01:23:04] Browser 1 Active for 33 minute(s)
+[2026-07-26 01:23:25] Browser 1 Initial scrolling completed.
+[2026-07-26 01:23:26] Browser 2 Starting...
+[2026-07-26 01:23:26] Browser 2 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0
+[2026-07-26 01:23:33] Browser 2 Opening https://httpbin.org/user-agent
+[2026-07-26 01:23:36] Browser 2 Active for 36 minute(s)
+[2026-07-26 01:23:51] Browser 1 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:23:51] Browser 1 Closing...
+[2026-07-26 01:23:54] Browser 1 Closed
+[2026-07-26 01:23:54] Browser 1 Restarting in 1 minute(s)...
+[2026-07-26 01:24:05] Browser 2 Initial scrolling completed.
+[2026-07-26 01:24:46] Browser 2 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:24:46] Browser 2 Closing...
+[2026-07-26 01:24:48] Browser 2 Closed
+[2026-07-26 01:24:48] Browser 2 Restarting in 1 minute(s)...
+[2026-07-26 01:24:54] Browser 1 Starting...
+[2026-07-26 01:24:54] Browser 1 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:25:00] Browser 1 Opening https://news.ycombinator.com
+[2026-07-26 01:25:03] Browser 1 Active for 18 minute(s)
+[2026-07-26 01:25:24] Browser 1 Initial scrolling completed.
+[2026-07-26 01:25:47] Browser 1 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:25:47] Browser 1 Closing...
+[2026-07-26 01:25:48] Browser 2 Starting...
+[2026-07-26 01:25:48] Browser 2 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:25:50] Browser 1 Closed
+[2026-07-26 01:25:50] Browser 1 Restarting in 1 minute(s)...
+[2026-07-26 01:25:55] Browser 2 Opening https://httpbin.org/user-agent
+[2026-07-26 01:25:58] Browser 2 Active for 60 minute(s)
+[2026-07-26 01:26:24] Browser 2 Initial scrolling completed.
+[2026-07-26 01:26:41] Browser 2 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:26:41] Browser 2 Closing...
+[2026-07-26 01:26:44] Browser 2 Closed
+[2026-07-26 01:26:44] Browser 2 Restarting in 1 minute(s)...
+[2026-07-26 01:26:50] Browser 1 Starting...
+[2026-07-26 01:26:50] Browser 1 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:26:56] Browser 1 Opening https://httpbin.org/user-agent
+[2026-07-26 01:26:58] Browser 1 Active for 43 minute(s)
+[2026-07-26 01:27:23] Browser 1 Initial scrolling completed.
+[2026-07-26 01:27:44] Browser 2 Starting...
+[2026-07-26 01:27:44] Browser 2 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:27:50] Browser 2 Opening https://httpbin.org/user-agent
+[2026-07-26 01:27:51] Browser 2 Active for 42 minute(s)
+[2026-07-26 01:27:57] Browser 1 ERROR: name 'random_scroll' is not defined
+[2026-07-26 01:27:57] Browser 1 Closing...
+[2026-07-26 01:27:59] Browser 1 Closed
+[2026-07-26 01:27:59] Browser 1 Restarting in 1 minute(s)...
+[2026-07-26 01:31:49] ============================================================
+[2026-07-26 01:31:49] BrowserManager v1.4 Stable
+[2026-07-26 01:31:49] ============================================================
+[2026-07-26 01:31:49] Browser 1 Starting...
+d.
+[2026-07-26 01:31:50] Browser 2 Starting...
+[2026-07-26 01:31:50] Browser 1 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:31:50] Browser 2 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:31:58] Browser 1 Opening https://news.ycombinator.com
+[2026-07-26 01:31:58] Browser 2 Opening https://www.wikipedia.org
+[2026-07-26 01:31:59] Browser 1 Active for 28 minute(s)
+[2026-07-26 01:32:00] Browser 2 Active for 43 minute(s)
+[2026-07-26 01:32:23] Browser 1 Initial human reading completed.
+[2026-07-26 01:32:30] Browser 2 Initial human reading completed.
+[2026-07-26 01:33:20] Shutdown requested...
+[2026-07-26 01:33:30] All browsers stopped.
+[2026-07-26 01:35:44] ============================================================
+[2026-07-26 01:35:44] BrowserManager v1.4 Stable
+[2026-07-26 01:35:44] ============================================================
+[2026-07-26 01:35:44] Browser 1 Starting...
+d.
+[2026-07-26 01:35:44] Waiting 15 second(s) before starting next browser...
+[2026-07-26 01:35:44] Browser 1 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:35:51] Browser 1 Opening https://www.wikipedia.org
+[2026-07-26 01:35:58] Browser 1 Active for 32 minute(s)
+[2026-07-26 01:35:59] Browser 2 Starting...
+[2026-07-26 01:35:59] Browser 2 thread started.
+[2026-07-26 01:36:00] 2 browser workers started.
+[2026-07-26 01:36:00] Browser 2 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 01:36:06] Browser 2 Opening https://www.wikipedia.org
+[2026-07-26 01:36:07] Browser 2 Active for 58 minute(s)
+[2026-07-26 01:36:24] Browser 1 Initial human reading completed.
+[2026-07-26 01:36:32] Browser 2 Initial human reading completed.
+[2026-07-26 01:37:02] Browser 1 Human reading completed.
+[2026-07-26 01:37:08] Shutdown requested...
+[2026-07-26 01:37:08] Browser 1 Closing...
+[2026-07-26 01:37:18] All browsers stopped.

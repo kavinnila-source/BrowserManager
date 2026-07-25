@@ -1,29 +1,26 @@
 import random
 import time
 
-from selenium.webdriver.common.action_chains import ActionChains
-
 
 def random_mouse_movement(driver):
     """
-    Simulate simple human-like mouse movement.
+    Marionette-safe mouse activity.
+
+    Firefox + Selenium sometimes throws errors with
+    ActionChains.move_by_offset(), so for now we simulate
+    user activity using small random pauses only.
+
+    This keeps the browser session looking active without
+    risking browser crashes.
     """
 
-    actions = ActionChains(driver)
+    try:
+        moves = random.randint(3, 6)
 
-    moves = random.randint(5, 10)
+        for _ in range(moves):
+            time.sleep(random.uniform(0.5, 2.0))
 
-    for _ in range(moves):
+        return True
 
-        x = random.randint(-100, 100)
-        y = random.randint(-100, 100)
-
-        try:
-            actions.move_by_offset(x, y).perform()
-        except Exception:
-            # Ignore if movement is outside the viewport
-            pass
-
-        time.sleep(random.uniform(0.5, 2.0))
-
-    return True
+    except Exception:
+        return False
