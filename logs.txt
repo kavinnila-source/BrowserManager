@@ -396,3 +396,49 @@ d.
 [2026-07-26 02:32:20] Browser 1 Initial human reading completed.
 [2026-07-26 02:32:32] Shutdown requested...
 [2026-07-26 02:32:42] All browsers stopped.
+[2026-07-26 09:14:23] ============================================================
+[2026-07-26 09:14:23] BrowserManager v1.4 Stable
+[2026-07-26 09:14:23] ============================================================
+[2026-07-26 09:14:23] Browser 1 thread started.
+[2026-07-26 09:14:23] Waiting 15 second(s) before starting next browser...
+[2026-07-26 09:14:23] Browser 1 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+[2026-07-26 09:14:30] Browser 1 Opening https://httpbin.org/user-agent
+[2026-07-26 09:14:32] Browser 1 Zoom set to 98%
+[2026-07-26 09:14:32] Browser 1 Active for 21 minute(s)
+[2026-07-26 09:14:38] Browser 2 Starting...
+[2026-07-26 09:14:38] Browser 2 thread started.
+[2026-07-26 09:14:38] 2 browser workers started.
+[2026-07-26 09:14:38] Browser 2 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+[2026-07-26 09:14:45] Browser 2 Opening https://example.com
+[2026-07-26 09:14:45] Browser 2 Zoom set to 91%
+[2026-07-26 09:14:45] Browser 2 Active for 39 minute(s)
+[2026-07-26 09:15:07] Browser 2 Initial human reading completed.
+[2026-07-26 09:15:11] Browser 1 Initial human reading completed.
+[2026-07-26 09:15:59] Browser 1 Human reading completed.
+[2026-07-26 09:16:00] Browser 2 Human reading completed.
+[2026-07-26 09:16:09] Shutdown requested...
+[2026-07-26 09:16:19] All browsers stopped.
+[2026-07-26 09:22:26] ============================================================
+[2026-07-26 09:22:26] BrowserManager v1.4 Stable
+[2026-07-26 09:22:26] ============================================================
+[2026-07-26 09:22:26] Browser 1 Starting...
+d.
+[2026-07-26 09:22:26] Waiting 15 second(s) before starting next browser...
+[2026-07-26 09:22:26] Browser 1 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edg/138.0.0.0
+[2026-07-26 09:22:32] Browser 1 Opening https://news.ycombinator.com
+[2026-07-26 09:22:35] Browser 1 Zoom set to 99%
+[2026-07-26 09:22:35] Browser 1 Active for 38 minute(s)
+[2026-07-26 09:22:41] Browser 2 Starting...
+d.
+[2026-07-26 09:22:41] 2 browser workers started.
+[2026-07-26 09:22:41] Browser 2 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+[2026-07-26 09:22:47] Browser 2 Opening https://example.com
+[2026-07-26 09:22:47] Browser 2 Zoom set to 92%
+[2026-07-26 09:22:47] Browser 2 Active for 10 minute(s)
+[2026-07-26 09:23:04] Browser 1 Initial human reading completed.
+[2026-07-26 09:23:09] Browser 2 Initial human reading completed.
+[2026-07-26 09:24:09] Browser 1 Human reading completed.
+[2026-07-26 09:24:18] Browser 2 Human reading completed.
+[2026-07-26 09:24:40] Browser 1 Human reading completed.
+[2026-07-26 09:24:52] Shutdown requested...
+[2026-07-26 09:25:02] All browsers stopped.

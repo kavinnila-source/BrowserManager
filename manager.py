@@ -9,6 +9,7 @@ from config import (
 
 from browser_worker import run_browser
 from logger import log
+from statistics import print_statistics
 
 
 stop_event = threading.Event()
@@ -35,7 +36,7 @@ def main():
     try:
 
         log("=" * 60)
-        log("BrowserManager v1.4 Stable")
+        log("BrowserManager v1.6 Live Dashboard")
         log("=" * 60)
 
         for worker_id in range(1, NUMBER_OF_WINDOWS + 1):
@@ -63,14 +64,22 @@ def main():
 
         log(f"{NUMBER_OF_WINDOWS} browser workers started.")
 
+        import time
+        last_stats = 0
+
         while not stop_event.is_set():
 
-            for thread in threads:
+            now = time.time()
 
+            if now - last_stats >= 5:
+                print_statistics()
+                last_stats = now
+
+            for thread in threads:
                 if not thread.is_alive():
                     log("A worker thread stopped unexpectedly.")
 
-            stop_event.wait(2)
+            stop_event.wait(1)
 
     except KeyboardInterrupt:
         shutdown()

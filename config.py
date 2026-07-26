@@ -17,8 +17,9 @@ URLS = [
 MIN_ACTIVE_MINUTES = 10
 MAX_ACTIVE_MINUTES = 60
 
-# Restart delay after browser closes (minutes)
-RESTART_DELAY_MINUTES = 1
+# Random restart delay after browser closes (minutes)
+MIN_RESTART_DELAY_MINUTES = 1
+MAX_RESTART_DELAY_MINUTES = 3
 
 # Delay between launching browsers when Manager starts (seconds)
 STARTUP_DELAY_SECONDS = 15
@@ -49,3 +50,10 @@ MIN_ZOOM = 90
 
 # Maximum browser zoom (%)
 MAX_ZOOM = 110
+
+# ==========================================
+# Logger Settings
+# ==========================================
+
+# Show logs in console
+ENABLE_CONSOLE_LOG = False
