@@ -1,4 +1,4 @@
-from logger import log
+from utils.logger import log
 
 
 def is_browser_alive(driver, worker_id):

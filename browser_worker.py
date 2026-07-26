@@ -13,6 +13,9 @@ from config import (
     URLS,
     MIN_ACTIVE_MINUTES,
     MAX_ACTIVE_MINUTES,
+    MAX_RAM_MB,
+    MAX_CPU_PERCENT,
+    MAX_PAGE_LOAD_SECONDS,
     MIN_RESTART_DELAY_MINUTES,
     MAX_RESTART_DELAY_MINUTES,
     MIN_WIDTH,
@@ -28,15 +31,15 @@ from config import (
     MAX_ZOOM,
 )
 
-from logger import log
+from utils.logger import log
 from user_agents import (
     get_random_user_agent,
     format_user_agent,
 )
 from health_monitor import is_browser_alive
-from browser_activity import human_reading
+from utils.browser_activity import human_reading
 
-from statistics import (
+from browser_statistics import (
     register_browser,
     update_status,
     update_url,
@@ -53,6 +56,17 @@ from statistics import (
     update_pid,
 )
 
+def calculate_health(ram_mb, cpu_percent, load_time):
+    if ram_mb > MAX_RAM_MB:
+        return "🟡 High RAM"
+
+    if cpu_percent > MAX_CPU_PERCENT:
+        return "🟠 High CPU"
+
+    if load_time > MAX_PAGE_LOAD_SECONDS:
+        return "🟡 Slow Page"
+
+    return "🟢 Healthy"
 
 def run_browser(worker_id, stop_event):
     while not stop_event.is_set():
@@ -184,6 +198,25 @@ def run_browser(worker_id, stop_event):
             )
             load_time = time.perf_counter() - load_start
             update_load_time(worker_id, f"{load_time:.2f} sec")
+
+            # Calculate health based on current values
+            ram_mb = 0.0
+            cpu_percent = 0.0
+
+            try:
+                firefox_process = psutil.Process(firefox_pid)
+                ram_mb = firefox_process.memory_info().rss / (1024 * 1024)
+                cpu_percent = firefox_process.cpu_percent(interval=0.1)
+            except Exception:
+                pass
+
+            health = calculate_health(
+                ram_mb,
+                cpu_percent,
+                load_time
+            )
+
+            update_health(worker_id, health)
 
             # Apply random browser zoom
             zoom = random.randint(MIN_ZOOM, MAX_ZOOM)

@@ -9,10 +9,61 @@ from config import (
 )
 
 from browser_worker import run_browser
-from logger import log
-from statistics import print_statistics
+from utils.logger import log
+from browser_statistics import print_statistics
 from system_monitor import monitor_system
+from flask import Flask
+from threading import Thread
+from browser_statistics import stats
 
+app = Flask(__name__)
+
+
+@app.route("/")
+def dashboard():
+
+    html = """
+    <html>
+    <head>
+        <meta http-equiv="refresh" content="2">
+        <title>BrowserManager Dashboard</title>
+    </head>
+    <body>
+        <h1>🚀 BrowserManager Live Dashboard</h1>
+        <hr>
+    """
+
+    for worker_id, data in stats.items():
+
+        html += f"""
+        <div style="border:1px solid #ccc;
+                    padding:15px;
+                    margin:15px;
+                    border-radius:10px;">
+
+        <h2>Browser {worker_id}</h2>
+
+        Status : {data.get('status','-')}<br>
+        Health : {data.get('health','-')}<br>
+        URL : {data.get('url','-')}<br>
+        Title : {data.get('title','-')}<br>
+        RAM : {data.get('ram','-')}<br>
+        CPU : {data.get('cpu','-')}<br>
+
+        </div>
+        """
+
+    html += "</body></html>"
+
+    return html
+
+def start_dashboard():
+    app.run(
+        host="127.0.0.1",
+        port=5000,
+        debug=False,
+        use_reloader=False,
+    )
 
 stop_event = threading.Event()
 threads = []
@@ -96,4 +147,13 @@ def main():
 
 
 if __name__ == "__main__":
+
+    dashboard_thread = Thread(
+        target=start_dashboard,
+        daemon=True
+    )
+    dashboard_thread.start()
+
+    log("🌐 Web Dashboard Started : http://127.0.0.1:5000")
+
     main()

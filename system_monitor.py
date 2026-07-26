@@ -1,7 +1,7 @@
 import time
 import psutil
 
-from statistics import (
+from browser_statistics import (
     stats,
     lock,
     update_ram,

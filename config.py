@@ -57,3 +57,9 @@ MAX_ZOOM = 110
 
 # Show logs in console
 ENABLE_CONSOLE_LOG = False
+
+# ---------- HEALTH THRESHOLDS ----------
+
+MAX_RAM_MB = 1000
+MAX_CPU_PERCENT = 80
+MAX_PAGE_LOAD_SECONDS = 5
