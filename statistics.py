@@ -14,6 +14,7 @@ def register_browser(worker_id):
             "user_agent": "-",
             "title": "-",
             "profile": "-",
+            "browser_version": "-",
             "pid": "-",
             "ram": "-",
             "cpu": "-",
@@ -55,6 +56,11 @@ def update_profile(worker_id, profile):
     with lock:
         if worker_id in stats:
             stats[worker_id]["profile"] = profile
+
+def update_browser_version(worker_id, version):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["browser_version"] = version            
 
 def update_pid(worker_id, pid):
     with lock:
@@ -120,6 +126,7 @@ def print_statistics():
             print(f"   User-Agent  : {data['user_agent']}")
             print(f"   Title       : {data['title']}")
             print(f"   Profile     : {data['profile']}")
+            print(f"   Browser     : {data['browser_version']}")
             print(f"   PID         : {data['pid']}")
             print(f"   RAM         : {data['ram']}")
             print(f"   CPU         : {data['cpu']}")

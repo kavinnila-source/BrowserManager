@@ -46,6 +46,7 @@ from statistics import (
     update_user_agent,
     update_title,
     update_profile,
+    update_browser_version,
     update_pid,
 )
 
@@ -160,6 +161,9 @@ def run_browser(worker_id, stop_event):
 
             # Update browser title
             update_title(worker_id, driver.title)
+
+            # Update browser version
+            update_browser_version(worker_id, driver.capabilities.get("browserVersion", "-"))
 
             update_url(worker_id, selected_url)
             update_status(worker_id, "Running")
