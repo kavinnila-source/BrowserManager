@@ -49,6 +49,19 @@ def update_pid(worker_id, pid):
         if worker_id in stats:
             stats[worker_id]["pid"] = pid
 
+
+def update_ram(worker_id, ram):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["ram"] = ram
+
+
+def update_cpu(worker_id, cpu):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["cpu"] = cpu
+
+
 def increment_restart(worker_id):
     with lock:
         if worker_id in stats:

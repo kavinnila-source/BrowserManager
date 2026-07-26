@@ -1,6 +1,7 @@
 import os
 import random
 import time
+import psutil
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -108,11 +109,28 @@ def run_browser(worker_id, stop_event):
             log(f"Browser {worker_id} User-Agent: {user_agent}")
 
             driver = webdriver.Firefox(
-                service=service,
-                options=options,
-            )
+                 service=service,
+                 options=options,
+            )    
 
-            firefox_pid = driver.service.process.pid
+            gecko_pid = driver.service.process.pid
+            firefox_pid = gecko_pid
+
+            try:
+                gecko = psutil.Process(gecko_pid)
+                time.sleep(1)
+
+                for child in gecko.children(recursive=True):
+                    try:
+                        if child.name().lower() == "firefox.exe":
+                            firefox_pid = child.pid
+                            break
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        pass
+
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                pass
+
             update_pid(worker_id, firefox_pid)
 
             width = random.randint(MIN_WIDTH, MAX_WIDTH)
