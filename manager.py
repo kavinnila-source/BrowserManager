@@ -1,6 +1,7 @@
 import threading
 import signal
 import sys
+import time
 
 from config import (
     NUMBER_OF_WINDOWS,
@@ -10,6 +11,7 @@ from config import (
 from browser_worker import run_browser
 from logger import log
 from statistics import print_statistics
+from system_monitor import monitor_system
 
 
 stop_event = threading.Event()
@@ -36,8 +38,16 @@ def main():
     try:
 
         log("=" * 60)
-        log("BrowserManager v1.6 Live Dashboard")
+        log("BrowserManager v1.8 Live Dashboard")
         log("=" * 60)
+
+        monitor_thread = threading.Thread(
+            target=monitor_system,
+            args=(stop_event,),
+            daemon=True,
+        )
+        monitor_thread.start()
+        threads.append(monitor_thread)
 
         for worker_id in range(1, NUMBER_OF_WINDOWS + 1):
 
@@ -52,19 +62,15 @@ def main():
 
             log(f"Browser {worker_id} thread started.")
 
-            # Wait before starting the next browser
             if worker_id < NUMBER_OF_WINDOWS:
-
                 log(
                     f"Waiting {STARTUP_DELAY_SECONDS} second(s) "
                     "before starting next browser..."
                 )
-
                 stop_event.wait(STARTUP_DELAY_SECONDS)
 
         log(f"{NUMBER_OF_WINDOWS} browser workers started.")
 
-        import time
         last_stats = 0
 
         while not stop_event.is_set():
@@ -76,7 +82,7 @@ def main():
                 last_stats = now
 
             for thread in threads:
-                if not thread.is_alive():
+                if not thread.is_alive() and thread is not monitor_thread:
                     log("A worker thread stopped unexpectedly.")
 
             stop_event.wait(1)

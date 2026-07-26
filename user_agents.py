@@ -10,3 +10,27 @@ USER_AGENTS = [
 
 def get_random_user_agent():
     return random.choice(USER_AGENTS)
+
+def format_user_agent(ua):
+    if "Firefox/" in ua:
+        version = ua.split("Firefox/")[-1].split(".")[0]
+        browser = f"Firefox {version}"
+    elif "Edg/" in ua:
+        version = ua.split("Edg/")[-1].split(".")[0]
+        browser = f"Edge {version}"
+    elif "Chrome/" in ua:
+        version = ua.split("Chrome/")[-1].split(".")[0]
+        browser = f"Chrome {version}"
+    else:
+        browser = "Unknown"
+
+    if "Windows" in ua:
+        os_name = "Windows"
+    elif "Linux" in ua:
+        os_name = "Linux"
+    elif "Mac OS X" in ua:
+        os_name = "macOS"
+    else:
+        os_name = "Unknown"
+
+    return f"{browser} ({os_name})"

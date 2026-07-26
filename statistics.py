@@ -4,28 +4,50 @@ import time
 stats = {}
 lock = threading.Lock()
 
-
 def register_browser(worker_id):
     with lock:
         stats[worker_id] = {
             "status": "Starting",
             "url": "-",
+            "zoom": "-",
+            "window_size": "-",
+            "user_agent": "-",
+            "pid": "-",
+            "ram": "-",
+            "cpu": "-",
             "restarts": 0,
             "start_time": time.time(),
         }
-
 
 def update_status(worker_id, status):
     with lock:
         if worker_id in stats:
             stats[worker_id]["status"] = status
 
-
 def update_url(worker_id, url):
     with lock:
         if worker_id in stats:
             stats[worker_id]["url"] = url
 
+def update_zoom(worker_id, zoom):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["zoom"] = zoom
+
+def update_window_size(worker_id, width, height):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["window_size"] = f"{width} x {height}"
+
+def update_user_agent(worker_id, user_agent):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["user_agent"] = user_agent
+
+def update_pid(worker_id, pid):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["pid"] = pid
 
 def increment_restart(worker_id):
     with lock:
@@ -33,40 +55,34 @@ def increment_restart(worker_id):
             stats[worker_id]["restarts"] += 1
             stats[worker_id]["start_time"] = time.time()
 
-
 def print_statistics():
     with lock:
-
         print("\033[2J\033[H", end="")
-
         print("=" * 70)
-        print("           BrowserManager v1.6 Live Dashboard")
+        print("           BrowserManager v1.8 Live Dashboard")
         print("=" * 70)
         print(f"Updated : {time.strftime('%Y-%m-%d %H:%M:%S')}")
         print("-" * 70)
-
         running = 0
-
         for worker_id in sorted(stats):
-
             data = stats[worker_id]
-
             uptime = int(time.time() - data["start_time"])
             minutes = uptime // 60
             seconds = uptime % 60
-
-            if data["status"] == "Running":
-                running += 1
-                icon = "🟢"
-            else:
-                icon = "🔴"
-
+            icon = "🟢" if data["status"]=="Running" else "🔴"
+            if data["status"]=="Running":
+                running +=1
             print(f"{icon} Browser {worker_id}")
-            print(f"   Status    : {data['status']}")
-            print(f"   URL       : {data['url']}")
-            print(f"   Uptime    : {minutes:02}:{seconds:02}")
-            print(f"   Restarts  : {data['restarts']}")
-            print("-" * 70)
-
+            print(f"   Status      : {data['status']}")
+            print(f"   URL         : {data['url']}")
+            print(f"   Zoom        : {data['zoom']}")
+            print(f"   Window      : {data['window_size']}")
+            print(f"   User-Agent  : {data['user_agent']}")
+            print(f"   PID         : {data['pid']}")
+            print(f"   RAM         : {data['ram']}")
+            print(f"   CPU         : {data['cpu']}")
+            print(f"   Uptime      : {minutes:02}:{seconds:02}")
+            print(f"   Restarts    : {data['restarts']}")
+            print("-"*70)
         print(f"Running Browsers : {running}/{len(stats)}")
-        print("=" * 70)
+        print("="*70)

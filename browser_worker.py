@@ -7,6 +7,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 from config import (
     URLS,
     MIN_ACTIVE_MINUTES,
@@ -27,7 +28,10 @@ from config import (
 )
 
 from logger import log
-from user_agents import get_random_user_agent
+from user_agents import (
+    get_random_user_agent,
+    format_user_agent,
+)
 from health_monitor import is_browser_alive
 from browser_activity import human_reading
 
@@ -36,6 +40,10 @@ from statistics import (
     update_status,
     update_url,
     increment_restart,
+    update_zoom,
+    update_window_size,
+    update_user_agent,
+    update_pid,
 )
 
 
@@ -92,12 +100,20 @@ def run_browser(worker_id, stop_event):
                 user_agent,
             )
 
+            update_user_agent(
+                worker_id,
+                format_user_agent(user_agent),
+            )
+
             log(f"Browser {worker_id} User-Agent: {user_agent}")
 
             driver = webdriver.Firefox(
                 service=service,
                 options=options,
             )
+
+            firefox_pid = driver.service.process.pid
+            update_pid(worker_id, firefox_pid)
 
             width = random.randint(MIN_WIDTH, MAX_WIDTH)
             height = random.randint(MIN_HEIGHT, MAX_HEIGHT)
@@ -107,6 +123,8 @@ def run_browser(worker_id, stop_event):
 
             driver.set_window_size(width, height)
             driver.set_window_position(x, y)
+
+            update_window_size(worker_id, width, height)
 
             selected_url = random.choice(URLS)
 
@@ -129,6 +147,8 @@ def run_browser(worker_id, stop_event):
             driver.execute_script(
                 f"document.body.style.zoom='{zoom}%'"
             )
+
+            update_zoom(worker_id, f"{zoom}%")
 
             log(f"Browser {worker_id} Zoom set to {zoom}%")
 
