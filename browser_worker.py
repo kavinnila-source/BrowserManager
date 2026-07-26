@@ -11,7 +11,8 @@ from config import (
     URLS,
     MIN_ACTIVE_MINUTES,
     MAX_ACTIVE_MINUTES,
-    RESTART_DELAY_MINUTES,
+    MIN_RESTART_DELAY_MINUTES,
+    MAX_RESTART_DELAY_MINUTES,
     MIN_WIDTH,
     MAX_WIDTH,
     MIN_HEIGHT,
@@ -21,12 +22,21 @@ from config import (
     MIN_Y,
     MAX_Y,
     PROFILE_FOLDER,
+    MIN_ZOOM,
+    MAX_ZOOM,
 )
 
 from logger import log
 from user_agents import get_random_user_agent
 from health_monitor import is_browser_alive
 from browser_activity import human_reading
+
+from statistics import (
+    register_browser,
+    update_status,
+    update_url,
+    increment_restart,
+)
 
 
 def run_browser(worker_id, stop_event):
@@ -35,6 +45,9 @@ def run_browser(worker_id, stop_event):
 
         try:
             log(f"Browser {worker_id} Starting...")
+
+            register_browser(worker_id)
+            update_status(worker_id, "Starting")
 
             base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -101,11 +114,23 @@ def run_browser(worker_id, stop_event):
 
             driver.get(selected_url)
 
+            update_url(worker_id, selected_url)
+            update_status(worker_id, "Running")
+
             WebDriverWait(driver, 60).until(
                 lambda d: d.execute_script(
                     "return document.readyState"
                 ) == "complete"
             )
+
+            # Apply random browser zoom
+            zoom = random.randint(MIN_ZOOM, MAX_ZOOM)
+
+            driver.execute_script(
+                f"document.body.style.zoom='{zoom}%'"
+            )
+
+            log(f"Browser {worker_id} Zoom set to {zoom}%")
 
             active_minutes = random.randint(
                 MIN_ACTIVE_MINUTES,
@@ -147,18 +172,26 @@ def run_browser(worker_id, stop_event):
         finally:
             if driver is not None:
                 log(f"Browser {worker_id} Closing...")
+                update_status(worker_id, "Stopped")
                 driver.quit()
                 log(f"Browser {worker_id} Closed")
 
         if stop_event.is_set():
             break
 
-        log(
-            f"Browser {worker_id} Restarting in "
-            f"{RESTART_DELAY_MINUTES} minute(s)..."
+        increment_restart(worker_id)
+
+        restart_delay = random.randint(
+            MIN_RESTART_DELAY_MINUTES,
+            MAX_RESTART_DELAY_MINUTES,
         )
 
-        for _ in range(RESTART_DELAY_MINUTES * 60):
+        log(
+            f"Browser {worker_id} Restarting in "
+            f"{restart_delay} minute(s)..."
+        )
+
+        for _ in range(restart_delay * 60):
             if stop_event.is_set():
                 break
             time.sleep(1)

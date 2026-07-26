@@ -1,3 +1,7 @@
+# ==========================================
+# BrowserManager v1.5 Configuration
+# ==========================================
+
 # Number of browser windows
 NUMBER_OF_WINDOWS = 2
 
@@ -13,10 +17,11 @@ URLS = [
 MIN_ACTIVE_MINUTES = 10
 MAX_ACTIVE_MINUTES = 60
 
-# Restart delay (minutes)
-RESTART_DELAY_MINUTES = 1
+# Random restart delay after browser closes (minutes)
+MIN_RESTART_DELAY_MINUTES = 1
+MAX_RESTART_DELAY_MINUTES = 3
 
-# Delay between launching browsers (seconds)
+# Delay between launching browsers when Manager starts (seconds)
 STARTUP_DELAY_SECONDS = 15
 
 # Window size
@@ -33,5 +38,22 @@ MAX_X = 800
 MIN_Y = 0
 MAX_Y = 300
 
-# Firefox profiles
+# Firefox profiles folder
 PROFILE_FOLDER = "profiles"
+
+# ==========================================
+# Random Zoom Settings
+# ==========================================
+
+# Minimum browser zoom (%)
+MIN_ZOOM = 90
+
+# Maximum browser zoom (%)
+MAX_ZOOM = 110
+
+# ==========================================
+# Logger Settings
+# ==========================================
+
+# Show logs in console
+ENABLE_CONSOLE_LOG = False
