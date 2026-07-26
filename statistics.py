@@ -15,6 +15,9 @@ def register_browser(worker_id):
             "title": "-",
             "profile": "-",
             "browser_version": "-",
+            "started_at": "-",
+            "health": "🟢 Healthy",
+            "load_time": "-",
             "pid": "-",
             "ram": "-",
             "cpu": "-",
@@ -61,6 +64,21 @@ def update_browser_version(worker_id, version):
     with lock:
         if worker_id in stats:
             stats[worker_id]["browser_version"] = version            
+
+def update_started_at(worker_id, started_at):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["started_at"] = started_at
+
+def update_health(worker_id, health):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["health"] = health
+
+def update_load_time(worker_id, load_time):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["load_time"] = load_time
 
 def update_pid(worker_id, pid):
     with lock:
@@ -113,6 +131,13 @@ def print_statistics():
                 pass
 
             uptime = int(time.time() - data["start_time"])
+
+            hours = uptime // 3600
+            minutes = (uptime % 3600) // 60
+            seconds = uptime % 60
+
+            uptime_str = f"{hours:02}:{minutes:02}:{seconds:02}"
+
             minutes = uptime // 60
             seconds = uptime % 60
             icon = "🟢" if data["status"]=="Running" else "🔴"
@@ -120,6 +145,8 @@ def print_statistics():
                 running +=1
             print(f"{icon} Browser {worker_id}")
             print(f"   Status      : {data['status']}")
+            print(f"   Health      : {data['health']}")
+            print(f"   Load Time    : {data['load_time']}")
             print(f"   URL         : {data['url']}")
             print(f"   Zoom        : {data['zoom']}")
             print(f"   Window      : {data['window_size']}")
@@ -127,10 +154,11 @@ def print_statistics():
             print(f"   Title       : {data['title']}")
             print(f"   Profile     : {data['profile']}")
             print(f"   Browser     : {data['browser_version']}")
+            print(f"   Started At  : {data['started_at']}")
+            print(f"   Uptime      : {uptime_str}")
             print(f"   PID         : {data['pid']}")
             print(f"   RAM         : {data['ram']}")
             print(f"   CPU         : {data['cpu']}")
-            print(f"   Uptime      : {minutes:02}:{seconds:02}")
             print(f"   Restarts    : {data['restarts']}")
             print("-"*70)
 

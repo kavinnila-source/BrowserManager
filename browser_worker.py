@@ -47,6 +47,9 @@ from statistics import (
     update_title,
     update_profile,
     update_browser_version,
+    update_started_at,
+    update_health,
+    update_load_time,
     update_pid,
 )
 
@@ -151,6 +154,8 @@ def run_browser(worker_id, stop_event):
 
             log(f"Browser {worker_id} Opening {selected_url}")
 
+            load_start = time.perf_counter()
+
             driver.get(selected_url)
 
             # Update profile name
@@ -165,6 +170,10 @@ def run_browser(worker_id, stop_event):
             # Update browser version
             update_browser_version(worker_id, driver.capabilities.get("browserVersion", "-"))
 
+            update_started_at(worker_id,time.strftime("%H:%M:%S"))
+
+            update_health(worker_id, "🟢 Healthy")
+
             update_url(worker_id, selected_url)
             update_status(worker_id, "Running")
 
@@ -173,6 +182,8 @@ def run_browser(worker_id, stop_event):
                     "return document.readyState"
                 ) == "complete"
             )
+            load_time = time.perf_counter() - load_start
+            update_load_time(worker_id, f"{load_time:.2f} sec")
 
             # Apply random browser zoom
             zoom = random.randint(MIN_ZOOM, MAX_ZOOM)
