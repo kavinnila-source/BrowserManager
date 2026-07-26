@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrowserManager Dashboard</title>
+
+    <meta http-equiv="refresh" content="3">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<h1>🚀 BrowserManager Dashboard</h1>
+
+{% if not stats %}
+
+<div class="card">
+    <h3>No browsers are running.</h3>
+</div>
+
+{% else %}
+
+{% for worker_id, data in stats.items() %}
+
+<div class="card">
+
+<h2>🟢 Browser {{ worker_id }}</h2>
+
+<table>
+
+<tr><td>Status</td><td>{{ data.status }}</td></tr>
+
+<tr><td>Health</td><td>{{ data.health }}</td></tr>
+
+<tr><td>URL</td><td>{{ data.url }}</td></tr>
+
+<tr><td>Title</td><td>{{ data.title }}</td></tr>
+
+<tr><td>Profile</td><td>{{ data.profile }}</td></tr>
+
+<tr><td>Browser</td><td>{{ data.browser_version }}</td></tr>
+
+<tr><td>RAM</td><td>{{ data.ram }}</td></tr>
+
+<tr><td>CPU</td><td>{{ data.cpu }}</td></tr>
+
+<tr><td>Load Time</td><td>{{ data.load_time }}</td></tr>
+
+<tr><td>PID</td><td>{{ data.pid }}</td></tr>
+
+<tr><td>Started At</td><td>{{ data.started_at }}</td></tr>
+
+</table>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+</body>
+</html>
