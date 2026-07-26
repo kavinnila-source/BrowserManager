@@ -44,6 +44,8 @@ from statistics import (
     update_zoom,
     update_window_size,
     update_user_agent,
+    update_title,
+    update_profile,
     update_pid,
 )
 
@@ -149,6 +151,15 @@ def run_browser(worker_id, stop_event):
             log(f"Browser {worker_id} Opening {selected_url}")
 
             driver.get(selected_url)
+
+            # Update profile name
+            update_profile(worker_id, os.path.basename(profile_path))
+
+            # Wait for page to load
+            time.sleep(2)
+
+            # Update browser title
+            update_title(worker_id, driver.title)
 
             update_url(worker_id, selected_url)
             update_status(worker_id, "Running")

@@ -12,6 +12,8 @@ def register_browser(worker_id):
             "zoom": "-",
             "window_size": "-",
             "user_agent": "-",
+            "title": "-",
+            "profile": "-",
             "pid": "-",
             "ram": "-",
             "cpu": "-",
@@ -43,6 +45,16 @@ def update_user_agent(worker_id, user_agent):
     with lock:
         if worker_id in stats:
             stats[worker_id]["user_agent"] = user_agent
+
+def update_title(worker_id, title):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["title"] = title
+
+def update_profile(worker_id, profile):
+    with lock:
+        if worker_id in stats:
+            stats[worker_id]["profile"] = profile
 
 def update_pid(worker_id, pid):
     with lock:
@@ -77,8 +89,23 @@ def print_statistics():
         print(f"Updated : {time.strftime('%Y-%m-%d %H:%M:%S')}")
         print("-" * 70)
         running = 0
+
+        total_ram = 0.0
+        total_cpu = 0.0
+
         for worker_id in sorted(stats):
             data = stats[worker_id]
+
+            try:
+                total_ram += float(str(data["ram"]).replace(" MB", ""))
+            except:
+                pass
+
+            try:
+                total_cpu += float(str(data["cpu"]).replace("%", ""))
+            except:
+                pass
+
             uptime = int(time.time() - data["start_time"])
             minutes = uptime // 60
             seconds = uptime % 60
@@ -91,11 +118,16 @@ def print_statistics():
             print(f"   Zoom        : {data['zoom']}")
             print(f"   Window      : {data['window_size']}")
             print(f"   User-Agent  : {data['user_agent']}")
+            print(f"   Title       : {data['title']}")
+            print(f"   Profile     : {data['profile']}")
             print(f"   PID         : {data['pid']}")
             print(f"   RAM         : {data['ram']}")
             print(f"   CPU         : {data['cpu']}")
             print(f"   Uptime      : {minutes:02}:{seconds:02}")
             print(f"   Restarts    : {data['restarts']}")
             print("-"*70)
-        print(f"Running Browsers : {running}/{len(stats)}")
-        print("="*70)
+
+            print(f"Running Browsers : {running}/{len(stats)}")
+            print(f"Total RAM        : {total_ram / 1024:.2f} GB")
+            print(f"Total CPU        : {total_cpu:.1f}%")
+            print("=" * 70)
