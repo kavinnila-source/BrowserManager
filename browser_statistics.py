@@ -1,196 +1,113 @@
+
 import threading
 import time
+from notification_manager import add_notification, get_notifications
 
 stats = {}
 lock = threading.Lock()
 
+
 def register_browser(worker_id):
     with lock:
         stats[worker_id] = {
-            "status": "Starting",
-            "url": "-",
-            "zoom": "-",
-            "window_size": "-",
-            "user_agent": "-",
-            "title": "-",
-            "profile": "-",
-            "browser_version": "-",
-            "started_at": "-",
-            "health": "🟢 Healthy",
-            "load_time": "-",
-            "pid": "-",
-            "ram": "-",
-            "cpu": "-",
-            "restarts": 0,
-            "start_time": time.time(),
+            "status":"Starting",
+            "url":"-",
+            "zoom":"-",
+            "window_size":"-",
+            "user_agent":"-",
+            "title":"-",
+            "profile":"-",
+            "browser_version":"-",
+            "started_at":"-",
+            "health":"🟢 Healthy",
+            "load_time":"-",
+            "pid":"-",
+            "ram":"-",
+            "cpu":"-",
+            "restarts":0,
+            "start_time":time.time(),
         }
+    add_notification(
+    "success",
+    "Browser Registered",
+    f"Browser {worker_id} registered."
+)
 
-def update_status(worker_id, status):
+
+def _update(worker_id,key,value):
     with lock:
         if worker_id in stats:
-            stats[worker_id]["status"] = status
+            stats[worker_id][key]=value
 
-def update_url(worker_id, url):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["url"] = url
+def update_status(worker_id,v): _update(worker_id,"status",v)
+def update_url(worker_id,v): _update(worker_id,"url",v)
+def update_zoom(worker_id,v): _update(worker_id,"zoom",v)
+def update_user_agent(worker_id,v): _update(worker_id,"user_agent",v)
+def update_title(worker_id,v): _update(worker_id,"title",v)
+def update_profile(worker_id,v): _update(worker_id,"profile",v)
+def update_browser_version(worker_id,v): _update(worker_id,"browser_version",v)
+def update_started_at(worker_id,v): _update(worker_id,"started_at",v)
+def update_health(worker_id,v): _update(worker_id,"health",v)
+def update_load_time(worker_id,v): _update(worker_id,"load_time",v)
+def update_pid(worker_id,v): _update(worker_id,"pid",v)
+def update_ram(worker_id,v): _update(worker_id,"ram",v)
+def update_cpu(worker_id,v): _update(worker_id,"cpu",v)
 
-def update_zoom(worker_id, zoom):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["zoom"] = zoom
-
-def update_window_size(worker_id, width, height):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["window_size"] = f"{width} x {height}"
-
-def update_user_agent(worker_id, user_agent):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["user_agent"] = user_agent
-
-def update_title(worker_id, title):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["title"] = title
-
-def update_profile(worker_id, profile):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["profile"] = profile
-
-def update_browser_version(worker_id, version):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["browser_version"] = version            
-
-def update_started_at(worker_id, started_at):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["started_at"] = started_at
-
-def update_health(worker_id, health):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["health"] = health
-
-def update_load_time(worker_id, load_time):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["load_time"] = load_time
-
-def update_pid(worker_id, pid):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["pid"] = pid
-
-
-def update_ram(worker_id, ram):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["ram"] = ram
-
-
-def update_cpu(worker_id, cpu):
-    with lock:
-        if worker_id in stats:
-            stats[worker_id]["cpu"] = cpu
-
+def update_window_size(worker_id,width,height):
+    _update(worker_id,"window_size",f"{width} x {height}")
 
 def increment_restart(worker_id):
     with lock:
         if worker_id in stats:
             stats[worker_id]["restarts"] += 1
             stats[worker_id]["start_time"] = time.time()
+    add_notification(
+    "warning",
+    "Browser Restarted",
+    f"Browser {worker_id} restarted."
+)
+
+def get_summary():
+    running=0
+    total_ram=0.0
+    total_cpu=0.0
+    healthy=0
+
+    with lock:
+        values=list(stats.values())
+
+    for data in values:
+        if data["status"]=="Running":
+            running+=1
+        if "Healthy" in str(data["health"]):
+            healthy+=1
+        try:
+            total_ram+=float(str(data["ram"]).replace(" MB",""))
+        except (ValueError, TypeError):
+            pass
+        try:
+            total_cpu+=float(str(data["cpu"]).replace("%",""))
+        except (ValueError, TypeError):
+            pass
+
+    return {
+        "running":running,
+        "total":len(values),
+        "healthy":healthy,
+        "total_ram":round(total_ram,1),
+        "total_cpu":round(total_cpu,1),
+    }
+
 
 def print_statistics():
     with lock:
         print("\033[2J\033[H", end="")
-        print("=" * 70)
-        print("           BrowserManager v1.8 Live Dashboard")
-        print("=" * 70)
+        print("="*70)
+        print("BrowserManager v2.0 Live Dashboard")
+        print("="*70)
         print(f"Updated : {time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print("-" * 70)
-        running = 0
-
-        total_ram = 0.0
-        total_cpu = 0.0
-
-        for worker_id in sorted(stats):
-            data = stats[worker_id]
-
-            try:
-                total_ram += float(str(data["ram"]).replace(" MB", ""))
-            except:
-                pass
-
-            try:
-                total_cpu += float(str(data["cpu"]).replace("%", ""))
-            except:
-                pass
-
-            uptime = int(time.time() - data["start_time"])
-
-            hours = uptime // 3600
-            minutes = (uptime % 3600) // 60
-            seconds = uptime % 60
-
-            uptime_str = f"{hours:02}:{minutes:02}:{seconds:02}"
-
-            minutes = uptime // 60
-            seconds = uptime % 60
-            icon = "🟢" if data["status"]=="Running" else "🔴"
-            if data["status"]=="Running":
-                running +=1
-            print(f"{icon} Browser {worker_id}")
-            print(f"   Status      : {data['status']}")
-            print(f"   Health      : {data['health']}")
-            print(f"   Load Time    : {data['load_time']}")
-            print(f"   URL         : {data['url']}")
-            print(f"   Zoom        : {data['zoom']}")
-            print(f"   Window      : {data['window_size']}")
-            print(f"   User-Agent  : {data['user_agent']}")
-            print(f"   Title       : {data['title']}")
-            print(f"   Profile     : {data['profile']}")
-            print(f"   Browser     : {data['browser_version']}")
-            print(f"   Started At  : {data['started_at']}")
-            print(f"   Uptime      : {uptime_str}")
-            print(f"   PID         : {data['pid']}")
-            print(f"   RAM         : {data['ram']}")
-            print(f"   CPU         : {data['cpu']}")
-            print(f"   Restarts    : {data['restarts']}")
-            print("-"*70)
-
-            print(f"Running Browsers : {running}/{len(stats)}")
-            print(f"Total RAM        : {total_ram / 1024:.2f} GB")
-            print(f"Total CPU        : {total_cpu:.1f}%")
-            print("=" * 70)
-
-def get_summary():
-    """
-    Returns overall dashboard summary.
-    """
-
-    running_browsers = len(stats)
-
-    total_ram = 0
-    total_cpu = 0
-
-    for data in stats.values():
-
-        try:
-            total_ram += float(str(data.get("ram", 0)).replace(" MB", ""))
-        except:
-            pass
-
-        try:
-            total_cpu += float(str(data.get("cpu", 0)).replace("%", ""))
-        except:
-            pass
-
-    return {
-        "running": running_browsers,
-        "total_ram": round(total_ram, 1),
-        "total_cpu": round(total_cpu, 1),
-    }
+        print("-"*70)
+        for wid,data in sorted(stats.items()):
+            print(f"Browser {wid} | {data['status']} | {data['health']} | RAM {data['ram']} | CPU {data['cpu']}")
+        print("-"*70)
+        print(get_summary())

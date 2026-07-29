@@ -234,3 +234,214 @@ border-radius:12px;
 font-weight:bold;
 
 }
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+
+width:240px;
+
+min-height:100vh;
+
+background:#111827;
+
+padding-top:20px;
+
+position:sticky;
+
+top:0;
+
+}
+
+.sidebar a{
+
+display:block;
+
+padding:15px 20px;
+
+color:white;
+
+text-decoration:none;
+
+font-size:17px;
+
+transition:.3s;
+
+}
+
+.sidebar a:hover{
+
+background:#2563eb;
+
+padding-left:30px;
+
+border-radius:8px;
+
+}
+
+.container{
+
+flex:1;
+
+}
+
+.activity-item{
+
+padding:10px;
+
+margin-bottom:10px;
+
+border-left:5px solid #3b82f6;
+
+background:#1f2937;
+
+border-radius:8px;
+
+}
+
+#activityLog{
+
+max-height:250px;
+
+overflow-y:auto;
+
+}
+
+#notificationBox{
+
+max-height:250px;
+
+overflow-y:auto;
+
+}
+
+.light-theme{
+
+background:#f5f5f5 !important;
+
+color:#111 !important;
+
+}
+
+.light-theme .card{
+
+background:white !important;
+
+color:#111 !important;
+
+}
+
+.light-theme .sidebar{
+
+background:#e9ecef !important;
+
+}
+
+.light-theme .sidebar a{
+
+color:#111 !important;
+
+}
+
+.light-theme .card-header{
+
+background:#0d6efd !important;
+
+color:white !important;
+
+}
+
+#themeToggle{
+width:75%;
+height:48px;
+margin:0 auto;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+font-weight:600;
+}
+
+.card-body h1{
+
+    font-size:44px;
+
+}
+
+#liveTime{
+
+    font-size:42px;
+
+}
+
+#liveDate{
+
+    font-size:16px;
+
+}
+
+.browser-card{
+background:#1e293b;
+border-radius:20px;
+}
+
+.sidebar hr{
+border-color:#374151;
+margin:18px 0;
+}
+
+
+/* ===== Step 9 Professional UI ===== */
+
+.sidebar{
+box-shadow:4px 0 20px rgba(0,0,0,.35);
+}
+
+.modal-content{
+background:#1e293b;
+color:#f8fafc;
+border:1px solid #334155;
+border-radius:18px;
+}
+
+.modal-header,
+.modal-footer{
+border-color:#334155;
+}
+
+.form-control,
+.form-select{
+background:#0f172a;
+color:#fff;
+border:1px solid #475569;
+}
+
+.form-control:focus,
+.form-select:focus{
+background:#0f172a;
+color:#fff;
+border-color:#3b82f6;
+box-shadow:0 0 0 .2rem rgba(59,130,246,.25);
+}
+
+#notificationBell{
+position:relative;
+font-size:22px;
+cursor:pointer;
+}
+
+.notification-badge{
+position:absolute;
+top:-6px;
+right:-8px;
+background:#ef4444;
+color:#fff;
+border-radius:50%;
+font-size:11px;
+padding:2px 6px;
+}
+
+.health-good{color:#22c55e;}
+.health-warn{color:#f59e0b;}
+.health-bad{color:#ef4444;}

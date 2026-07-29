@@ -32,3 +32,7 @@ def log(message):
         # File
         with open(LOG_FILE, "a", encoding="utf-8") as file:
             file.write(text + "\n")
+
+def log_info(msg): log("[INFO] "+msg)
+def log_warning(msg): log("[WARNING] "+msg)
+def log_error(msg): log("[ERROR] "+msg)

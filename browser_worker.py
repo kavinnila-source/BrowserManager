@@ -2,11 +2,29 @@ import os
 import random
 import time
 import psutil
+import traceback
+
+from notification_manager import (
+    browser_started,
+    browser_stopped,
+    browser_restarted,
+    browser_crashed,
+    high_ram,
+    high_cpu,
+    slow_page,
+    driver_error,
+)
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import (
+    TimeoutException,
+    WebDriverException,
+    NoSuchWindowException,
+    SessionNotCreatedException,
+)
 
 
 from config import (
@@ -71,12 +89,14 @@ def calculate_health(ram_mb, cpu_percent, load_time):
 def run_browser(worker_id, stop_event):
     while not stop_event.is_set():
         driver = None
+        restart_reason = "Normal Restart"
 
         try:
             log(f"Browser {worker_id} Starting...")
 
             register_browser(worker_id)
             update_status(worker_id, "Starting")
+            browser_started(worker_id)
 
             base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -138,7 +158,6 @@ def run_browser(worker_id, stop_event):
 
             try:
                 gecko = psutil.Process(gecko_pid)
-                time.sleep(1)
 
                 for child in gecko.children(recursive=True):
                     try:
@@ -170,6 +189,7 @@ def run_browser(worker_id, stop_event):
 
             load_start = time.perf_counter()
 
+            update_status(worker_id, "Loading")
             driver.get(selected_url)
 
             # Update profile name
@@ -198,6 +218,9 @@ def run_browser(worker_id, stop_event):
             )
             load_time = time.perf_counter() - load_start
             update_load_time(worker_id, f"{load_time:.2f} sec")
+
+            if load_time > MAX_PAGE_LOAD_SECONDS:
+                slow_page(worker_id, load_time)
 
             # Calculate health based on current values
             ram_mb = 0.0
@@ -254,6 +277,24 @@ def run_browser(worker_id, stop_event):
                     log(f"Browser {worker_id} is not responding.")
                     break
 
+                if second % 5 == 0:
+                    try:
+                        firefox_process = psutil.Process(firefox_pid)
+                        ram_mb = firefox_process.memory_info().rss / (1024 * 1024)
+                        cpu_percent = firefox_process.cpu_percent(interval=0.1)
+                        update_health(
+                            worker_id,
+                            calculate_health(ram_mb, cpu_percent, load_time),
+                        )
+
+                        if ram_mb > MAX_RAM_MB:
+                            high_ram(worker_id, ram_mb)
+
+                        if cpu_percent > MAX_CPU_PERCENT:
+                            high_cpu(worker_id, cpu_percent)
+                    except Exception:
+                        pass
+
                 if second >= next_activity:
 
                     human_reading(driver)
@@ -263,12 +304,36 @@ def run_browser(worker_id, stop_event):
 
                 time.sleep(1)
 
+        except TimeoutException:
+            restart_reason="Page Timeout"
+            update_status(worker_id,"Recovering")
+            browser_crashed(worker_id, restart_reason)
+            log(f"Browser {worker_id} Timeout")
+        except NoSuchWindowException:
+            restart_reason="Window Closed"
+            update_status(worker_id,"Crashed")
+            browser_crashed(worker_id, restart_reason)
+        except SessionNotCreatedException:
+            restart_reason="Driver Error"
+            update_status(worker_id,"Crashed")
+            browser_crashed(worker_id, restart_reason)
+        except WebDriverException as e:
+            restart_reason="Browser Crash"
+            update_status(worker_id,"Crashed")
+            browser_crashed(worker_id, restart_reason)
+            driver_error(worker_id, str(e))
+            log(str(e))
         except Exception as e:
-            log(f"Browser {worker_id} ERROR: {e}")
+            restart_reason="Unknown Error"
+            update_status(worker_id,"Crashed")
+            browser_crashed(worker_id, restart_reason)
+            log(traceback.format_exc())
 
         finally:
             if driver is not None:
                 log(f"Browser {worker_id} Closing...")
+                update_status(worker_id, "Stopping")
+                browser_stopped(worker_id)
                 update_status(worker_id, "Stopped")
                 driver.quit()
                 log(f"Browser {worker_id} Closed")
@@ -276,6 +341,9 @@ def run_browser(worker_id, stop_event):
         if stop_event.is_set():
             break
 
+        update_status(worker_id,"Restarting")
+        browser_restarted(worker_id, restart_reason)
+        log(f"[RESTART] Browser {worker_id} Reason: {restart_reason}")
         increment_restart(worker_id)
 
         restart_delay = random.randint(
