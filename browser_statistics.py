@@ -166,3 +166,31 @@ def print_statistics():
             print(f"Total RAM        : {total_ram / 1024:.2f} GB")
             print(f"Total CPU        : {total_cpu:.1f}%")
             print("=" * 70)
+
+def get_summary():
+    """
+    Returns overall dashboard summary.
+    """
+
+    running_browsers = len(stats)
+
+    total_ram = 0
+    total_cpu = 0
+
+    for data in stats.values():
+
+        try:
+            total_ram += float(str(data.get("ram", 0)).replace(" MB", ""))
+        except:
+            pass
+
+        try:
+            total_cpu += float(str(data.get("cpu", 0)).replace("%", ""))
+        except:
+            pass
+
+    return {
+        "running": running_browsers,
+        "total_ram": round(total_ram, 1),
+        "total_cpu": round(total_cpu, 1),
+    }
